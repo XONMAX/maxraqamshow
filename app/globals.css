@@ -1,0 +1,87 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --bg: #f2f3f6;
+  --surface: #ffffff;
+  --surface-2: #eceef2;
+  --fg: #0b0d12;
+  --muted: #5d6879;
+  --line: rgba(15, 23, 42, 0.09);
+  color-scheme: light;
+}
+.dark {
+  --bg: #07080b;
+  --surface: #111318;
+  --surface-2: #1a1d24;
+  --fg: #f2f4f7;
+  --muted: #8a93a5;
+  --line: rgba(255, 255, 255, 0.08);
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono Variable", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+html,
+body {
+  height: 100%;
+  background: var(--bg);
+  color: var(--fg);
+}
+body {
+  overscroll-behavior: none;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+button,
+[role="button"] {
+  touch-action: manipulation;
+}
+:focus-visible {
+  outline: 2px solid #229ed9;
+  outline-offset: 2px;
+}
+/* Text inputs sit inside bordered containers that show focus via :focus-within */
+input:focus-visible {
+  outline: none;
+}
+
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+@utility tabular {
+  font-variant-numeric: tabular-nums;
+}
+@utility pt-safe {
+  padding-top: env(safe-area-inset-top);
+}
+@utility pb-safe {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+@utility cq {
+  container-type: inline-size;
+}
+
+/* Number input arrows are noise on mobile */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+}

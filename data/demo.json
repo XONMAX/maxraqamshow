@@ -1,0 +1,902 @@
+[
+  {
+    "id": "ph-001",
+    "type": "phone",
+    "value": "+998 00 777 77 77",
+    "category": "vip",
+    "priceUZS": 98650000,
+    "priceUSD": 7800,
+    "seller": {
+      "name": "Aziz K.",
+      "rating": 4.9,
+      "verified": true
+    },
+    "isDemo": true,
+    "createdAt": "2026-10-01T09:00:00.000Z"
+  },
+  {
+    "id": "ph-002",
+    "type": "phone",
+    "value": "+998 00 999 99 99",
+    "category": "vip",
+    "priceUZS": 87300000,
+    "priceUSD": 6900,
+    "seller": {
+      "name": "Otabek S.",
+      "rating": 4.3,
+      "verified": false
+    },
+    "isDemo": true,
+    "createdAt": "2026-10-19T02:30:00.000Z"
+  },
+  {
+    "id": "ph-003",
+    "type": "phone",
+    "value": "+998 00 555 55 55",
+    "category": "vip",
+    "priceUZS": 65800000,
+    "priceUSD": 5200,
+    "seller": {
+      "name": "Jasur M.",
+      "rating": 4.5,
+      "verified": false
+    },
+    "isDemo": true,
+    "createdAt": "2026-10-08T02:00:00.000Z"
+  },
+  {
+    "id": "ph-004",
+    "type": "phone",
+    "value": "+998 00 111 11 11",
+    "category": "vip",
+    "priceUZS": 58200000,
+    "priceUSD": 4600,
+    "seller": {
+      "name": "Madina R.",
+      "rating": 5,
+      "verified": true
+    },
+    "isDemo": true,
+    "createdAt": "2026-10-25T19:30:00.000Z"
+  },
+  {
+    "id": "ph-005",
+    "type": "phone",
+    "value": "+998 00 333 33 33",
+    "category": "vip",
+    "priceUZS": 51850000,
+    "priceUSD": 4100,
+    "seller": {
+      "name": "Zarina N.",
+      "rating": 4.8,
+      "verified": true
+    },
+    "isDemo": true,
+    "createdAt": "2026-10-14T19:00:00.000Z"
+  },
+  {
+    "id": "ph-006",
+    "type": "phone",
+    "value": "+998 00 123 32 10",
+    "category": "mirror",
+    "priceUZS": 12000000,
+    "priceUSD": 950,
+    "seller": {
+      "name": "Dilshod A.",
+      "rating": 4.6,
+      "verified": true
+    },
+    "isDemo": true,
+    "createdAt": "2026-10-03T18:30:00.000Z"
+  },
+  {
+    "id": "ph-007",
+    "type": "phone",
+    "value": "+998 00 123 43 21",
+    "category": "mirror",
+    "priceUZS": 17700000,
+    "priceUSD": 1400,
+    "seller": {
+      "name": "Sardor T.",
+      "rating": 4.7,
+      "verified": true
+    },
+    "isDemo": true,
+    "createdAt": "2026-10-21T12:00:00.000Z"
+  },
+  {
+    "id": "ph-008",
+    "type": "phone",
+    "value": "+998 00 765 45 67",
+    "category": "mirror",
+    "priceUZS": 11150000,
+    "priceUSD": 880,
+    "seller": {
+      "name": "Rustam B.",
+      "rating": 4.4,
+      "verified": true
+    },
+    "isDemo": true,
+    "createdAt": "2026-10-10T11:30:00.000Z"
+  },
+  {
+    "id": "ph-009",
+    "type": "phone",
+    "value": "+998 00 900 00 09",
+    "category": "mirror",
+    "priceUZS": 14550000,
+    "priceUSD": 1150,
+    "seller": {
+      "name": "Kamola Y.",
+      "rating": 4.9,
+      "verified": true
+    },
+    "isDemo": true,
+    "createdAt": "2026-10-28T05:00:00.000Z"
+  },
+  {
+    "id": "ph-010",
+    "type": "phone",
+    "value": "+998 00 345 65 43",
+    "category": "mirror",
+    "priceUZS": 9100000,
+    "priceUSD": 720,
+    "seller": {
+      "name": "Nodira X.",
+      "rating": 4.8,
+      "verified": true
+    },
+    "isDemo": true,
+    "createdAt": "2026-10-17T04:30:00.000Z"
+  },
+  {
+    "id": "ph-011",
+    "type": "phone",
+    "value": "+998 00 123 45 67",
+    "category": "sequential",
+    "priceUZS": 30350000,
+    "priceUSD": 2400,
+    "seller": {
+      "name": "Aziz K.",
+      "rating": 4.9,
+      "verified": true
+    },
+    "isDemo": true,
+    "createdAt": "2026-10-06T04:00:00.000Z"
+  },
+  {
+    "id": "ph-012",
+    "type": "phone",
+    "value": "+998 00 234 56 78",
+    "category": "sequential",
+    "priceUZS": 20250000,
+    "priceUSD": 1600,
+    "seller": {
+      "name": "Otabek S.",
+      "rating": 4.3,
+      "verified": false
+    },
+    "isDemo": true,
+    "createdAt": "2026-10-23T21:30:00.000Z"
+  },
+  {
+    "id": "ph-013",
+    "type": "phone",
+    "value": "+998 00 345 67 89",
+    "category": "sequential",
+    "priceUZS": 18350000,
+    "priceUSD": 1450,
+    "seller": {
+      "name": "Jasur M.",
+      "rating": 4.5,
+      "verified": false
+    },
+    "isDemo": true,
+    "createdAt": "2026-10-12T21:00:00.000Z"
+  },
+  {
+    "id": "ph-014",
+    "type": "phone",
+    "value": "+998 00 987 65 43",
+    "category": "sequential",
+    "priceUZS": 15800000,
+    "priceUSD": 1250,
+    "seller": {
+      "name": "Madina R.",
+      "rating": 5,
+      "verified": true
+    },
+    "isDemo": true,
+    "createdAt": "2026-10-01T20:30:00.000Z"
+  },
+  {
+    "id": "ph-015",
+    "type": "phone",
+    "value": "+998 00 112 23 34",
+    "category": "pairs",
+    "priceUZS": 8100000,
+    "priceUSD": 640,
+    "seller": {
+      "name": "Zarina N.",
+      "rating": 4.8,
+      "verified": true
+    },
+    "isDemo": true,
+    "createdAt": "2026-10-19T14:00:00.000Z"
+  },
+  {
+    "id": "ph-016",
+    "type": "phone",
+    "value": "+998 00 223 34 45",
+    "category": "pairs",
+    "priceUZS": 6600000,
+    "priceUSD": 520,
+    "seller": {
+      "name": "Dilshod A.",
+      "rating": 4.6,
+      "verified": true
+    },
+    "isDemo": true,
+    "createdAt": "2026-10-08T13:30:00.000Z"
+  },
+  {
+    "id": "ph-017",
+    "type": "phone",
+    "value": "+998 00 556 67 78",
+    "category": "pairs",
+    "priceUZS": 6050000,
+    "priceUSD": 480,
+    "seller": {
+      "name": "Sardor T.",
+      "rating": 4.7,
+      "verified": true
+    },
+    "isDemo": true,
+    "createdAt": "2026-10-26T07:00:00.000Z"
+  },
+  {
+    "id": "ph-018",
+    "type": "phone",
+    "value": "+998 00 998 87 76",
+    "category": "pairs",
+    "priceUZS": 7100000,
+    "priceUSD": 560,
+    "seller": {
+      "name": "Rustam B.",
+      "rating": 4.4,
+      "verified": true
+    },
+    "isDemo": true,
+    "createdAt": "2026-10-15T06:30:00.000Z"
+  },
+  {
+    "id": "ph-019",
+    "type": "phone",
+    "value": "+998 00 301 45 82",
+    "category": "standard",
+    "priceUZS": 550000,
+    "priceUSD": 45,
+    "seller": {
+      "name": "Kamola Y.",
+      "rating": 4.9,
+      "verified": true
+    },
+    "isDemo": true,
+    "createdAt": "2026-10-04T06:00:00.000Z"
+  },
+  {
+    "id": "ph-020",
+    "type": "phone",
+    "value": "+998 00 450 12 09",
+    "category": "standard",
+    "priceUZS": 500000,
+    "priceUSD": 38,
+    "seller": {
+      "name": "Nodira X.",
+      "rating": 4.8,
+      "verified": true
+    },
+    "isDemo": true,
+    "createdAt": "2026-10-21T23:30:00.000Z"
+  },
+  {
+    "id": "tg-021",
+    "type": "telegram",
+    "value": "@abc",
+    "category": "letters3",
+    "priceUZS": 145500000,
+    "priceUSD": 11500,
+    "seller": {
+      "name": "Aziz K.",
+      "rating": 4.9,
+      "verified": true
+    },
+    "isDemo": true,
+    "createdAt": "2026-10-10T23:00:00.000Z"
+  },
+  {
+    "id": "tg-022",
+    "type": "telegram",
+    "value": "@abd",
+    "category": "letters3",
+    "priceUZS": 80950000,
+    "priceUSD": 6400,
+    "seller": {
+      "name": "Otabek S.",
+      "rating": 4.3,
+      "verified": false
+    },
+    "isDemo": true,
+    "createdAt": "2026-10-28T16:30:00.000Z"
+  },
+  {
+    "id": "tg-023",
+    "type": "telegram",
+    "value": "@zed",
+    "category": "letters3",
+    "priceUZS": 91100000,
+    "priceUSD": 7200,
+    "seller": {
+      "name": "Jasur M.",
+      "rating": 4.5,
+      "verified": false
+    },
+    "isDemo": true,
+    "createdAt": "2026-10-17T16:00:00.000Z"
+  },
+  {
+    "id": "tg-024",
+    "type": "telegram",
+    "value": "@dev",
+    "category": "letters3",
+    "priceUZS": 123950000,
+    "priceUSD": 9800,
+    "seller": {
+      "name": "Madina R.",
+      "rating": 5,
+      "verified": true
+    },
+    "isDemo": true,
+    "createdAt": "2026-10-06T15:30:00.000Z"
+  },
+  {
+    "id": "tg-025",
+    "type": "telegram",
+    "value": "@nova",
+    "category": "letters4",
+    "priceUZS": 49350000,
+    "priceUSD": 3900,
+    "seller": {
+      "name": "Zarina N.",
+      "rating": 4.8,
+      "verified": true
+    },
+    "isDemo": true,
+    "createdAt": "2026-10-24T09:00:00.000Z"
+  },
+  {
+    "id": "tg-026",
+    "type": "telegram",
+    "value": "@kino",
+    "category": "letters4",
+    "priceUZS": 41750000,
+    "priceUSD": 3300,
+    "seller": {
+      "name": "Dilshod A.",
+      "rating": 4.6,
+      "verified": true
+    },
+    "isDemo": true,
+    "createdAt": "2026-10-13T08:30:00.000Z"
+  },
+  {
+    "id": "tg-027",
+    "type": "telegram",
+    "value": "@orbit",
+    "category": "words",
+    "priceUZS": 21500000,
+    "priceUSD": 1700,
+    "seller": {
+      "name": "Sardor T.",
+      "rating": 4.7,
+      "verified": true
+    },
+    "isDemo": true,
+    "createdAt": "2026-10-02T08:00:00.000Z"
+  },
+  {
+    "id": "tg-028",
+    "type": "telegram",
+    "value": "@coffee",
+    "category": "words",
+    "priceUZS": 26550000,
+    "priceUSD": 2100,
+    "seller": {
+      "name": "Rustam B.",
+      "rating": 4.4,
+      "verified": true
+    },
+    "isDemo": true,
+    "createdAt": "2026-10-20T01:30:00.000Z"
+  },
+  {
+    "id": "tg-029",
+    "type": "telegram",
+    "value": "@travel",
+    "category": "words",
+    "priceUZS": 32900000,
+    "priceUSD": 2600,
+    "seller": {
+      "name": "Kamola Y.",
+      "rating": 4.9,
+      "verified": true
+    },
+    "isDemo": true,
+    "createdAt": "2026-10-09T01:00:00.000Z"
+  },
+  {
+    "id": "tg-030",
+    "type": "telegram",
+    "value": "@music",
+    "category": "words",
+    "priceUZS": 36700000,
+    "priceUSD": 2900,
+    "seller": {
+      "name": "Nodira X.",
+      "rating": 4.8,
+      "verified": true
+    },
+    "isDemo": true,
+    "createdAt": "2026-10-26T18:30:00.000Z"
+  },
+  {
+    "id": "tg-031",
+    "type": "telegram",
+    "value": "@tashkent",
+    "category": "words",
+    "priceUZS": 24050000,
+    "priceUSD": 1900,
+    "seller": {
+      "name": "Aziz K.",
+      "rating": 4.9,
+      "verified": true
+    },
+    "isDemo": true,
+    "createdAt": "2026-10-15T18:00:00.000Z"
+  },
+  {
+    "id": "tg-032",
+    "type": "telegram",
+    "value": "@plov",
+    "category": "words",
+    "priceUZS": 29100000,
+    "priceUSD": 2300,
+    "seller": {
+      "name": "Otabek S.",
+      "rating": 4.3,
+      "verified": false
+    },
+    "isDemo": true,
+    "createdAt": "2026-10-04T17:30:00.000Z"
+  },
+  {
+    "id": "tg-033",
+    "type": "telegram",
+    "value": "@samarqand",
+    "category": "words",
+    "priceUZS": 17100000,
+    "priceUSD": 1350,
+    "seller": {
+      "name": "Jasur M.",
+      "rating": 4.5,
+      "verified": false
+    },
+    "isDemo": true,
+    "createdAt": "2026-10-22T11:00:00.000Z"
+  },
+  {
+    "id": "tg-034",
+    "type": "telegram",
+    "value": "@aziz",
+    "category": "names",
+    "priceUZS": 22750000,
+    "priceUSD": 1800,
+    "seller": {
+      "name": "Madina R.",
+      "rating": 5,
+      "verified": true
+    },
+    "isDemo": true,
+    "createdAt": "2026-10-11T10:30:00.000Z"
+  },
+  {
+    "id": "tg-035",
+    "type": "telegram",
+    "value": "@madina",
+    "category": "names",
+    "priceUZS": 11400000,
+    "priceUSD": 900,
+    "seller": {
+      "name": "Zarina N.",
+      "rating": 4.8,
+      "verified": true
+    },
+    "isDemo": true,
+    "createdAt": "2026-10-29T04:00:00.000Z"
+  },
+  {
+    "id": "tg-036",
+    "type": "telegram",
+    "value": "@sardor",
+    "category": "names",
+    "priceUZS": 8200000,
+    "priceUSD": 650,
+    "seller": {
+      "name": "Dilshod A.",
+      "rating": 4.6,
+      "verified": true
+    },
+    "isDemo": true,
+    "createdAt": "2026-10-18T03:30:00.000Z"
+  },
+  {
+    "id": "tg-037",
+    "type": "telegram",
+    "value": "@lola",
+    "category": "names",
+    "priceUZS": 19600000,
+    "priceUSD": 1550,
+    "seller": {
+      "name": "Sardor T.",
+      "rating": 4.7,
+      "verified": true
+    },
+    "isDemo": true,
+    "createdAt": "2026-10-07T03:00:00.000Z"
+  },
+  {
+    "id": "tg-038",
+    "type": "telegram",
+    "value": "@x777",
+    "category": "digits",
+    "priceUZS": 15200000,
+    "priceUSD": 1200,
+    "seller": {
+      "name": "Rustam B.",
+      "rating": 4.4,
+      "verified": true
+    },
+    "isDemo": true,
+    "createdAt": "2026-10-24T20:30:00.000Z"
+  },
+  {
+    "id": "tg-039",
+    "type": "telegram",
+    "value": "@bek2",
+    "category": "digits",
+    "priceUZS": 1750000,
+    "priceUSD": 140,
+    "seller": {
+      "name": "Kamola Y.",
+      "rating": 4.9,
+      "verified": true
+    },
+    "isDemo": true,
+    "createdAt": "2026-10-13T20:00:00.000Z"
+  },
+  {
+    "id": "tg-040",
+    "type": "telegram",
+    "value": "@news24",
+    "category": "digits",
+    "priceUZS": 3300000,
+    "priceUSD": 260,
+    "seller": {
+      "name": "Nodira X.",
+      "rating": 4.8,
+      "verified": true
+    },
+    "isDemo": true,
+    "createdAt": "2026-10-02T19:30:00.000Z"
+  },
+  {
+    "id": "ig-041",
+    "type": "instagram",
+    "value": "@ayx",
+    "category": "letters3",
+    "priceUZS": 70850000,
+    "priceUSD": 5600,
+    "seller": {
+      "name": "Aziz K.",
+      "rating": 4.9,
+      "verified": true
+    },
+    "isDemo": true,
+    "createdAt": "2026-10-20T13:00:00.000Z"
+  },
+  {
+    "id": "ig-042",
+    "type": "instagram",
+    "value": "@zoo",
+    "category": "letters3",
+    "priceUZS": 103750000,
+    "priceUSD": 8200,
+    "seller": {
+      "name": "Otabek S.",
+      "rating": 4.3,
+      "verified": false
+    },
+    "isDemo": true,
+    "createdAt": "2026-10-09T12:30:00.000Z"
+  },
+  {
+    "id": "ig-043",
+    "type": "instagram",
+    "value": "@kaf",
+    "category": "letters3",
+    "priceUZS": 54400000,
+    "priceUSD": 4300,
+    "seller": {
+      "name": "Jasur M.",
+      "rating": 4.5,
+      "verified": false
+    },
+    "isDemo": true,
+    "createdAt": "2026-10-27T06:00:00.000Z"
+  },
+  {
+    "id": "ig-044",
+    "type": "instagram",
+    "value": "@luna",
+    "category": "letters4",
+    "priceUZS": 39200000,
+    "priceUSD": 3100,
+    "seller": {
+      "name": "Madina R.",
+      "rating": 5,
+      "verified": true
+    },
+    "isDemo": true,
+    "createdAt": "2026-10-16T05:30:00.000Z"
+  },
+  {
+    "id": "ig-045",
+    "type": "instagram",
+    "value": "@mira",
+    "category": "letters4",
+    "priceUZS": 27850000,
+    "priceUSD": 2200,
+    "seller": {
+      "name": "Zarina N.",
+      "rating": 4.8,
+      "verified": true
+    },
+    "isDemo": true,
+    "createdAt": "2026-10-05T05:00:00.000Z"
+  },
+  {
+    "id": "ig-046",
+    "type": "instagram",
+    "value": "@nexa",
+    "category": "letters4",
+    "priceUZS": 19000000,
+    "priceUSD": 1500,
+    "seller": {
+      "name": "Dilshod A.",
+      "rating": 4.6,
+      "verified": true
+    },
+    "isDemo": true,
+    "createdAt": "2026-10-22T22:30:00.000Z"
+  },
+  {
+    "id": "ig-047",
+    "type": "instagram",
+    "value": "@vibe",
+    "category": "letters4",
+    "priceUZS": 34150000,
+    "priceUSD": 2700,
+    "seller": {
+      "name": "Sardor T.",
+      "rating": 4.7,
+      "verified": true
+    },
+    "isDemo": true,
+    "createdAt": "2026-10-11T22:00:00.000Z"
+  },
+  {
+    "id": "ig-048",
+    "type": "instagram",
+    "value": "@pixel",
+    "category": "words",
+    "priceUZS": 24050000,
+    "priceUSD": 1900,
+    "seller": {
+      "name": "Rustam B.",
+      "rating": 4.4,
+      "verified": true
+    },
+    "isDemo": true,
+    "createdAt": "2026-10-29T15:30:00.000Z"
+  },
+  {
+    "id": "ig-049",
+    "type": "instagram",
+    "value": "@studio",
+    "category": "words",
+    "priceUZS": 20250000,
+    "priceUSD": 1600,
+    "seller": {
+      "name": "Kamola Y.",
+      "rating": 4.9,
+      "verified": true
+    },
+    "isDemo": true,
+    "createdAt": "2026-10-18T15:00:00.000Z"
+  },
+  {
+    "id": "ig-050",
+    "type": "instagram",
+    "value": "@bazaar",
+    "category": "words",
+    "priceUZS": 13900000,
+    "priceUSD": 1100,
+    "seller": {
+      "name": "Nodira X.",
+      "rating": 4.8,
+      "verified": true
+    },
+    "isDemo": true,
+    "createdAt": "2026-10-07T14:30:00.000Z"
+  },
+  {
+    "id": "ig-051",
+    "type": "instagram",
+    "value": "@design",
+    "category": "words",
+    "priceUZS": 30350000,
+    "priceUSD": 2400,
+    "seller": {
+      "name": "Aziz K.",
+      "rating": 4.9,
+      "verified": true
+    },
+    "isDemo": true,
+    "createdAt": "2026-10-25T08:00:00.000Z"
+  },
+  {
+    "id": "ig-052",
+    "type": "instagram",
+    "value": "@bekzod",
+    "category": "names",
+    "priceUZS": 5300000,
+    "priceUSD": 420,
+    "seller": {
+      "name": "Otabek S.",
+      "rating": 4.3,
+      "verified": false
+    },
+    "isDemo": true,
+    "createdAt": "2026-10-14T07:30:00.000Z"
+  },
+  {
+    "id": "ig-053",
+    "type": "instagram",
+    "value": "@nilufar",
+    "category": "names",
+    "priceUZS": 4800000,
+    "priceUSD": 380,
+    "seller": {
+      "name": "Jasur M.",
+      "rating": 4.5,
+      "verified": false
+    },
+    "isDemo": true,
+    "createdAt": "2026-10-03T07:00:00.000Z"
+  },
+  {
+    "id": "ig-054",
+    "type": "instagram",
+    "value": "@dilnoza",
+    "category": "names",
+    "priceUZS": 4300000,
+    "priceUSD": 340,
+    "seller": {
+      "name": "Madina R.",
+      "rating": 5,
+      "verified": true
+    },
+    "isDemo": true,
+    "createdAt": "2026-10-21T00:30:00.000Z"
+  },
+  {
+    "id": "ig-055",
+    "type": "instagram",
+    "value": "@jasur",
+    "category": "names",
+    "priceUZS": 7700000,
+    "priceUSD": 610,
+    "seller": {
+      "name": "Zarina N.",
+      "rating": 4.8,
+      "verified": true
+    },
+    "isDemo": true,
+    "createdAt": "2026-10-10T00:00:00.000Z"
+  },
+  {
+    "id": "ig-056",
+    "type": "instagram",
+    "value": "@art.uz",
+    "category": "dots",
+    "priceUZS": 9500000,
+    "priceUSD": 750,
+    "seller": {
+      "name": "Dilshod A.",
+      "rating": 4.6,
+      "verified": true
+    },
+    "isDemo": true,
+    "createdAt": "2026-10-27T17:30:00.000Z"
+  },
+  {
+    "id": "ig-057",
+    "type": "instagram",
+    "value": "@photo_daily",
+    "category": "dots",
+    "priceUZS": 2300000,
+    "priceUSD": 180,
+    "seller": {
+      "name": "Sardor T.",
+      "rating": 4.7,
+      "verified": true
+    },
+    "isDemo": true,
+    "createdAt": "2026-10-16T17:00:00.000Z"
+  },
+  {
+    "id": "ig-058",
+    "type": "instagram",
+    "value": "@tasty.food",
+    "category": "dots",
+    "priceUZS": 2800000,
+    "priceUSD": 220,
+    "seller": {
+      "name": "Rustam B.",
+      "rating": 4.4,
+      "verified": true
+    },
+    "isDemo": true,
+    "createdAt": "2026-10-05T16:30:00.000Z"
+  },
+  {
+    "id": "ig-059",
+    "type": "instagram",
+    "value": "@uz_travel",
+    "category": "dots",
+    "priceUZS": 3650000,
+    "priceUSD": 290,
+    "seller": {
+      "name": "Kamola Y.",
+      "rating": 4.9,
+      "verified": true
+    },
+    "isDemo": true,
+    "createdAt": "2026-10-23T10:00:00.000Z"
+  },
+  {
+    "id": "ig-060",
+    "type": "instagram",
+    "value": "@my.style",
+    "category": "dots",
+    "priceUZS": 2000000,
+    "priceUSD": 160,
+    "seller": {
+      "name": "Nodira X.",
+      "rating": 4.8,
+      "verified": true
+    },
+    "isDemo": true,
+    "createdAt": "2026-10-12T09:30:00.000Z"
+  }
+]
