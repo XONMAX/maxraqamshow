@@ -32,7 +32,7 @@ export function BottomSheet({ open, onClose, title, footer, children, z = 50 }: 
       {open && (
         <div className="fixed inset-0" style={{ zIndex: z }}>
           <motion.div
-            className="absolute inset-0 bg-black/55 backdrop-blur-[2px]"
+            className="absolute inset-0 bg-black/60 backdrop-blur-[3px]"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -42,11 +42,11 @@ export function BottomSheet({ open, onClose, title, footer, children, z = 50 }: 
             role="dialog"
             aria-modal="true"
             aria-labelledby={title ? titleId : undefined}
-            className="absolute inset-x-0 bottom-0 mx-auto flex max-h-[90dvh] max-w-[480px] flex-col rounded-t-[28px] border-t border-line bg-surface shadow-2xl"
+            className="absolute inset-x-0 bottom-0 mx-auto flex max-h-[90dvh] max-w-[480px] flex-col rounded-t-2xl border-t border-line-strong bg-bg"
             initial={{ y: "100%" }}
             animate={{ y: 0 }}
             exit={{ y: "100%" }}
-            transition={{ type: "spring", damping: 34, stiffness: 340 }}
+            transition={{ duration: 0.22, ease: "easeOut" }}
             drag="y"
             dragControls={controls}
             dragListener={false}
@@ -57,7 +57,7 @@ export function BottomSheet({ open, onClose, title, footer, children, z = 50 }: 
             }}
           >
             <div className="shrink-0 cursor-grab touch-none px-5 pt-2.5" onPointerDown={(e) => controls.start(e)}>
-              <div className="mx-auto mb-2 h-1.5 w-10 rounded-full bg-line" aria-hidden />
+              <div className="mx-auto mb-2 h-1 w-9 rounded-full bg-line-strong" aria-hidden />
               <div className="flex min-h-11 items-center justify-between gap-3">
                 <div id={titleId} className="min-w-0 flex-1">
                   {title}

@@ -71,12 +71,12 @@ export function TelegramLogin({ onDone }: { onDone?: () => void }) {
       {BOT ? (
         <div ref={ref} className="flex min-h-11 justify-center" />
       ) : (
-        <p className="rounded-xl bg-surface-2 px-3 py-2 text-center text-[12px] text-muted">{d.profile.widgetMissing}</p>
+        <p className="rounded-lg border border-line px-3 py-2 text-center text-[12px] text-muted">{d.profile.widgetMissing}</p>
       )}
       <button
         type="button"
         onClick={demoLogin}
-        className="flex min-h-12 items-center justify-center gap-2 rounded-2xl bg-[#229ED9] px-4 text-center font-semibold text-white active:scale-[0.98]"
+        className="flex min-h-11 items-center justify-center gap-2 rounded-lg border border-fg bg-fg px-4 text-center text-[14px] font-semibold text-bg active:opacity-70"
       >
         <SiTelegram size={18} aria-hidden />
         {d.profile.demoLogin}

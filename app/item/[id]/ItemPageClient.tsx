@@ -18,7 +18,7 @@ export function ItemPageClient({ id }: { id: string }) {
         {item ? <ItemDetails item={item} /> : hydrated && <p className="mt-10 text-center text-muted">{d.search.empty}</p>}
       </PageBody>
       {item && (
-        <div className="shrink-0 border-t border-line bg-bg px-4 py-3">
+        <div className="shrink-0 border-t border-line bg-bg px-3 py-2">
           <BuyBar item={item} />
         </div>
       )}

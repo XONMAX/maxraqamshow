@@ -16,11 +16,14 @@ function item(type, value, category, usd) {
   const [name, rating, verified] = sellers[(i * 7) % sellers.length];
   // round UZS to the nearest 50 000 so it looks like a real asking price
   const priceUZS = Math.round((usd * RATE) / 50000) * 50000;
+  const premium = usd >= 4000; // top-priced listings are gated for free users
   return {
     id: `${type === "phone" ? "ph" : type === "telegram" ? "tg" : "ig"}-${String(i + 1).padStart(3, "0")}`,
     type, value, category, priceUZS, priceUSD: usd,
-    seller: { name, rating, verified },
+    seller: { name, rating, verified, contact: `@${name.split(" ")[0].toLowerCase()}_seller` },
     isDemo: true,
+    premium,
+    sponsored: i % 20 === 5 || i % 20 === 12, // two paid placements per type
     createdAt: new Date(base + ((i * 37) % 60) * 11.5 * 3600_000).toISOString(),
   };
 }

@@ -2,22 +2,25 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+/* Strict monochrome design system: black, white, and neutral grays only. */
 :root {
-  --bg: #f2f3f6;
+  --bg: #ffffff;
   --surface: #ffffff;
-  --surface-2: #eceef2;
-  --fg: #0b0d12;
-  --muted: #5d6879;
-  --line: rgba(15, 23, 42, 0.09);
+  --surface-2: #f4f4f4;
+  --fg: #000000;
+  --muted: #6b6b6b;
+  --line: #e4e4e4;
+  --line-strong: #bdbdbd;
   color-scheme: light;
 }
 .dark {
-  --bg: #07080b;
-  --surface: #111318;
-  --surface-2: #1a1d24;
-  --fg: #f2f4f7;
-  --muted: #8a93a5;
-  --line: rgba(255, 255, 255, 0.08);
+  --bg: #000000;
+  --surface: #000000;
+  --surface-2: #121212;
+  --fg: #ffffff;
+  --muted: #8c8c8c;
+  --line: #222222;
+  --line-strong: #3a3a3a;
   color-scheme: dark;
 }
 
@@ -28,6 +31,7 @@
   --color-fg: var(--fg);
   --color-muted: var(--muted);
   --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
   --font-sans: "Inter Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-mono: "JetBrains Mono Variable", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 }
@@ -42,17 +46,15 @@ body {
   overscroll-behavior: none;
   -webkit-tap-highlight-color: transparent;
   -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
 }
 button,
 [role="button"] {
   touch-action: manipulation;
 }
 :focus-visible {
-  outline: 2px solid #229ed9;
+  outline: 1px solid var(--fg);
   outline-offset: 2px;
 }
-/* Text inputs sit inside bordered containers that show focus via :focus-within */
 input:focus-visible {
   outline: none;
 }
@@ -72,11 +74,40 @@ input:focus-visible {
 @utility pb-safe {
   padding-bottom: env(safe-area-inset-bottom);
 }
-@utility cq {
-  container-type: inline-size;
+
+/*
+ * Viewport-driven fade + blur. The IntersectionObserver in useViewportFade() toggles
+ * `data-vis` on each card; only opacity + filter animate (both composited: no layout).
+ * Maps 1:1 to SwiftUI .opacity()/.blur() and Compose alpha/Modifier.blur().
+ */
+@utility fade-blur {
+  opacity: 1;
+  filter: blur(0);
+  transition:
+    opacity 220ms ease-out,
+    filter 220ms ease-out;
+  &[data-vis="out"] {
+    opacity: 0;
+    filter: blur(6px);
+  }
+  &[data-vis="edge"] {
+    opacity: 0.45;
+    filter: blur(2px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .fade-blur {
+    filter: none !important;
+    transition: opacity 150ms linear;
+  }
 }
 
-/* Number input arrows are noise on mobile */
+/* Progressive edge blur/fade on the horizontal product row (mask = cheap, no extra layers). */
+@utility edge-mask-x {
+  mask-image: linear-gradient(to right, transparent, #000 24px, #000 calc(100% - 24px), transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 24px, #000 calc(100% - 24px), transparent);
+}
+
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;

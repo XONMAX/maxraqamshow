@@ -16,7 +16,7 @@ async function render(name, size, { maskable = false } = {}) {
   await page.setViewportSize({ width: size, height: size });
   // Maskable: full-bleed background, artwork scaled into the 80% safe zone.
   const inner = maskable
-    ? `<div style="width:100%;height:100%;background:#07080b;display:flex;align-items:center;justify-content:center"><div style="width:78%;height:78%">${svg.replace('rx="112"', 'rx="0"')}</div></div>`
+    ? `<div style="width:100%;height:100%;background:#000;display:flex;align-items:center;justify-content:center"><div style="width:78%;height:78%">${svg.replace('rx="112"', 'rx="0"')}</div></div>`
     : svg;
   await page.setContent(
     `<html><body style="margin:0;background:transparent"><div style="width:${size}px;height:${size}px">${inner}</div><style>svg{width:100%;height:100%;display:block}</style></body></html>`,

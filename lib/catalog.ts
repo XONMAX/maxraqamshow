@@ -91,6 +91,16 @@ export function sortItems(items: Item[], sort: SortKey, type: TypeFilter): Item[
   }
 }
 
+/**
+ * Product row order: boosted + sponsored first (paid placement), then the normal feed.
+ * `promotedSlots` caps how many leading tiles are reserved so organic items stay visible.
+ */
+export function promoteFirst(items: Item[], isBoosted: (id: string) => boolean, slots: number): Item[] {
+  const promoted = items.filter((i) => isBoosted(i.id) || i.sponsored).slice(0, slots);
+  const ids = new Set(promoted.map((i) => i.id));
+  return [...promoted, ...items.filter((i) => !ids.has(i.id))];
+}
+
 export function queryFeed(items: Item[], type: TypeFilter, category: string, sort: SortKey) {
   const cat = findCategory(type, category);
   const pool = items.filter((i) => (type === "all" || i.type === type) && cat.test(i));

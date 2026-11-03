@@ -5,6 +5,8 @@ export interface Seller {
   name: string;
   rating: number;
   verified: boolean;
+  /** Gated behind Pro / unlock. */
+  contact?: string;
 }
 
 export interface Item {
@@ -17,19 +19,22 @@ export interface Item {
   seller: Seller;
   isDemo: boolean;
   createdAt: string;
-  /** Set on listings the current user published from the Sell flow. */
+  /** Listing published by the current user. */
   mine?: boolean;
+  /** Premium listing: details + contact blurred for free users. */
+  premium?: boolean;
+  /** Paid placement: pinned to the front of the product row with an [AD] pill. */
+  sponsored?: boolean;
 }
 
 export type SortKey = "sequence" | "priceAsc" | "priceDesc" | "newest";
-export type ViewMode = "reels" | "list";
 
 export const DEAL_STEPS = ["paid", "transferring", "delivered", "confirmed"] as const;
 export type DealStatus = (typeof DEAL_STEPS)[number];
 
 export interface Deal {
   id: string;
-  item: Item; // snapshot at purchase time
+  item: Item;
   status: DealStatus;
   totalUZS: number;
   feeUZS: number;
@@ -47,5 +52,4 @@ export interface User {
 }
 
 export const USD_RATE = 12650; // UZS per USD (demo rate)
-export const ESCROW_FEE = 0.03;
-export const STORAGE_KEY = "nikbozor-v1";
+export const STORAGE_KEY = "nikbozor-v2";

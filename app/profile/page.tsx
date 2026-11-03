@@ -2,106 +2,88 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { ChevronRight, Download, LogOut, Moon, RotateCcw, ShieldCheck, Sun } from "lucide-react";
+import { ChevronRight, Coins, Download, LogOut, Moon, RotateCcw, Sun } from "lucide-react";
 import { useApp, useDict, useUI } from "@/lib/store";
-import { LANGS } from "@/lib/i18n";
+import { useBilling } from "@/lib/billing";
+import { LANGS, fmt } from "@/lib/i18n";
 import { formatDate, formatUZS } from "@/lib/format";
 import { TypeBadge } from "@/lib/meta";
 import { PageBody, PageHeader } from "@/components/PageHeader";
 import { TelegramLogin } from "@/components/auth/TelegramLogin";
-import { DealDots, STATUS_STYLE } from "@/components/deal/DealTimeline";
-import { CompactCard } from "@/components/ItemCard";
-import { Avatar, ItemValue, Section } from "@/components/ui";
+import { DealDots } from "@/components/deal/DealTimeline";
+import { PostRow } from "@/components/ItemCard";
+import { Avatar, Button, ItemValue, Pill, Section } from "@/components/ui";
 
-interface BeforeInstallPromptEvent extends Event {
-  prompt: () => Promise<void>;
-}
+interface BeforeInstallPromptEvent extends Event { prompt: () => Promise<void> }
 
 export default function ProfilePage() {
   const d = useDict();
   const { lang, theme, user, deals, listings, setLang, toggleTheme, setUser, reset } = useApp();
+  const isPro = useBilling((s) => s.isPro());
+  const expiresAt = useBilling((s) => s.expiresAt);
+  const coins = useBilling((s) => s.coins);
+  const openPaywall = useBilling((s) => s.openPaywall);
   const toast = useUI((s) => s.showToast);
   const [installEvt, setInstallEvt] = useState<BeforeInstallPromptEvent | null>(null);
 
   useEffect(() => {
-    const onPrompt = (e: Event) => {
-      e.preventDefault();
-      setInstallEvt(e as BeforeInstallPromptEvent);
-    };
+    const onPrompt = (e: Event) => { e.preventDefault(); setInstallEvt(e as BeforeInstallPromptEvent); };
     window.addEventListener("beforeinstallprompt", onPrompt);
     return () => window.removeEventListener("beforeinstallprompt", onPrompt);
   }, []);
 
-  const logout = async () => {
-    await fetch("/api/auth/logout", { method: "POST" }).catch(() => {});
-    setUser(null);
-  };
+  const logout = async () => { await fetch("/api/auth/logout", { method: "POST" }).catch(() => {}); setUser(null); };
+  const segment = (active: boolean) => `h-9 rounded-md text-[12px] font-semibold ${active ? "bg-fg text-bg" : "text-muted"}`;
 
   return (
     <>
       <PageHeader title={d.profile.title} />
-      <PageBody className="pt-4">
-        {/* Account */}
-        <div className="rounded-3xl border border-line bg-surface p-4">
+      <PageBody className="pt-3">
+        <div className="rounded-lg border border-line p-3">
           {user ? (
             <div className="flex items-center gap-3">
-              <Avatar name={`${user.first_name} ${user.last_name ?? ""}`} src={user.photo_url} size={52} />
+              <Avatar name={`${user.first_name} ${user.last_name ?? ""}`} src={user.photo_url} size={40} />
               <div className="min-w-0 flex-1">
-                <p className="truncate text-[17px] font-bold">
-                  {user.first_name} {user.last_name}
-                </p>
-                {user.username && <p className="font-mono text-[13px] text-muted">@{user.username}</p>}
-                {user.demo && <p className="text-[11px] font-semibold text-amber-600 dark:text-amber-400">DEMO</p>}
+                <p className="truncate text-[15px] font-semibold">{user.first_name} {user.last_name}</p>
+                <p className="flex items-center gap-1.5 font-mono text-[11px] text-muted">{user.username && `@${user.username}`}{user.demo && <Pill>DEMO</Pill>}</p>
               </div>
-              <button
-                type="button"
-                onClick={logout}
-                aria-label={d.profile.logout}
-                className="flex h-11 w-11 items-center justify-center rounded-2xl border border-line text-muted"
-              >
-                <LogOut size={18} />
-              </button>
+              <button type="button" onClick={logout} aria-label={d.profile.logout} className="flex h-10 w-10 items-center justify-center rounded-md border border-line text-muted"><LogOut size={15} /></button>
             </div>
           ) : (
             <div>
-              <div className="mb-4 flex items-center gap-3">
-                <Avatar name="?" size={52} />
-                <div>
-                  <p className="text-[17px] font-bold">{d.profile.guest}</p>
-                  <p className="text-[13px] leading-snug text-muted">{d.profile.loginHint}</p>
-                </div>
-              </div>
+              <p className="text-[15px] font-semibold">{d.profile.guest}</p>
+              <p className="mt-0.5 mb-3 text-[12px] text-muted">{d.profile.loginHint}</p>
               <TelegramLogin />
             </div>
           )}
         </div>
 
-        {/* Deals */}
+        {/* Membership */}
+        <button type="button" onClick={() => openPaywall({ reason: isPro ? "coins" : "upgrade" })} className="mt-2 flex h-14 w-full items-center justify-between rounded-lg border border-line px-3 text-left">
+          <span className="flex items-center gap-2">
+            <Pill solid={isPro}>{d.mono.pro}</Pill>
+            <span className="text-[13px] font-semibold">{isPro ? (expiresAt ? fmt(d.mono.proUntil, { d: formatDate(expiresAt, lang) }) : d.mono.proActive) : d.mono.paywallTitle}</span>
+          </span>
+          <span className="inline-flex items-center gap-1 font-mono text-[12px] text-muted tabular"><Coins size={12} /> {coins}<ChevronRight size={14} /></span>
+        </button>
+
         <Section title={d.deal.myDeals}>
           {deals.length === 0 ? (
-            <p className="rounded-2xl border border-dashed border-line p-4 text-center text-[13px] text-muted">{d.profile.noDeals}</p>
+            <p className="rounded-lg border border-dashed border-line p-3 text-center text-[12px] text-muted">{d.profile.noDeals}</p>
           ) : (
-            <ul className="space-y-2">
+            <ul className="divide-y divide-line rounded-lg border border-line">
               {deals.map((deal) => (
                 <li key={deal.id}>
-                  <Link href={`/deals/${deal.id}`} className="flex items-center gap-3 rounded-2xl border border-line bg-surface p-3 active:scale-[0.99]">
-                    <TypeBadge type={deal.item.type} size={38} />
+                  <Link href={`/deals/${deal.id}`} className="flex h-14 items-center gap-3 px-3">
+                    <TypeBadge type={deal.item.type} size={28} />
                     <div className="min-w-0 flex-1">
-                      <p className="truncate text-[16px]">
-                        <ItemValue item={deal.item} variant="row" />
-                      </p>
-                      <div className="mt-1 flex items-center gap-2">
-                        <DealDots status={deal.status} />
-                        <span className="truncate text-[11px] font-semibold" style={{ color: STATUS_STYLE[deal.status].color }}>
-                          {d.deal.status[deal.status]}
-                        </span>
-                      </div>
+                      <p className="truncate leading-[18px]"><ItemValue item={deal.item} size="sm" /></p>
+                      <div className="mt-0.5 flex items-center gap-2 text-[11px] text-muted"><DealDots status={deal.status} />{d.deal.status[deal.status]}</div>
                     </div>
                     <div className="text-right">
                       <p className="font-mono text-[12px] font-semibold tabular">{formatUZS(deal.totalUZS, lang)}</p>
-                      <p className="text-[11px] text-muted">{formatDate(deal.createdAt, lang)}</p>
+                      <p className="text-[10px] text-muted">{formatDate(deal.createdAt, lang)}</p>
                     </div>
-                    <ChevronRight size={18} className="shrink-0 text-muted" />
                   </Link>
                 </li>
               ))}
@@ -109,93 +91,36 @@ export default function ProfilePage() {
           )}
         </Section>
 
-        {/* Listings */}
         <Section title={d.profile.myListings}>
           {listings.length === 0 ? (
-            <Link href="/sell" className="block rounded-2xl border border-dashed border-line p-4 text-center text-[13px] text-muted">
-              {d.profile.noListings} · <span className="font-semibold text-fg">{d.nav.sell} →</span>
-            </Link>
+            <Link href="/sell" className="block rounded-lg border border-dashed border-line p-3 text-center text-[12px] text-muted">{d.profile.noListings} · <span className="font-semibold text-fg">{d.nav.sell} →</span></Link>
           ) : (
-            <ul className="space-y-3">
-              {listings.map((it) => (
-                <li key={it.id}>
-                  <CompactCard item={it} />
-                </li>
-              ))}
-            </ul>
+            <div className="rounded-lg border border-line">{listings.map((it) => <PostRow key={it.id} item={it} />)}</div>
           )}
         </Section>
 
-        {/* Settings */}
         <Section title={d.profile.language}>
-          <div className="grid grid-cols-3 gap-1 rounded-2xl border border-line bg-surface p-1" role="radiogroup" aria-label={d.profile.language}>
-            {LANGS.map((l) => (
-              <button
-                key={l.key}
-                type="button"
-                role="radio"
-                aria-checked={lang === l.key}
-                onClick={() => setLang(l.key)}
-                className={`h-11 rounded-xl text-[13px] font-semibold transition-colors ${lang === l.key ? "bg-fg text-bg" : "text-muted"}`}
-              >
-                {l.label}
-              </button>
-            ))}
+          <div className="grid grid-cols-3 gap-1 rounded-lg border border-line p-1" role="radiogroup" aria-label={d.profile.language}>
+            {LANGS.map((l) => <button key={l.key} type="button" role="radio" aria-checked={lang === l.key} onClick={() => setLang(l.key)} className={segment(lang === l.key)}>{l.label}</button>)}
           </div>
         </Section>
 
         <Section title={d.profile.theme}>
-          <button
-            type="button"
-            role="switch"
-            aria-checked={theme === "dark"}
-            onClick={toggleTheme}
-            className="flex h-14 w-full items-center justify-between rounded-2xl border border-line bg-surface px-4"
-          >
-            <span className="flex items-center gap-3 font-semibold">
-              {theme === "dark" ? <Moon size={19} /> : <Sun size={19} />}
-              {theme === "dark" ? d.profile.dark : d.profile.light}
-            </span>
-            <span className={`relative h-7 w-12 rounded-full transition-colors ${theme === "dark" ? "bg-[#229ED9]" : "bg-line"}`}>
-              <span
-                className={`absolute top-1 h-5 w-5 rounded-full bg-white shadow transition-[left] ${theme === "dark" ? "left-6" : "left-1"}`}
-              />
-            </span>
+          <button type="button" role="switch" aria-checked={theme === "dark"} onClick={toggleTheme} className="flex h-12 w-full items-center justify-between rounded-lg border border-line px-3">
+            <span className="flex items-center gap-2 text-[13px] font-semibold">{theme === "dark" ? <Moon size={16} /> : <Sun size={16} />}{theme === "dark" ? d.profile.dark : d.profile.light}</span>
+            <span className={`relative h-6 w-10 rounded-full border ${theme === "dark" ? "border-fg bg-fg" : "border-line-strong"}`}><span className={`absolute top-0.5 h-[18px] w-[18px] rounded-full transition-[left] ${theme === "dark" ? "left-[18px] bg-bg" : "left-0.5 bg-fg"}`} /></span>
           </button>
         </Section>
 
-        <div className="mt-6 space-y-2">
+        <div className="mt-5 space-y-2">
           {installEvt && (
-            <button
-              type="button"
-              onClick={async () => {
-                await installEvt.prompt();
-                setInstallEvt(null);
-              }}
-              className="flex h-14 w-full items-center gap-3 rounded-2xl border border-line bg-surface px-4 text-left"
-            >
-              <Download size={19} />
-              <span className="flex-1">
-                <span className="block font-semibold">{d.profile.install}</span>
-                <span className="block text-[12px] text-muted">{d.profile.installHint}</span>
-              </span>
-            </button>
+            <Button variant="outline" className="w-full justify-start" onClick={async () => { await installEvt.prompt(); setInstallEvt(null); }}>
+              <Download size={15} /> {d.profile.install}
+            </Button>
           )}
-          <button
-            type="button"
-            onClick={() => {
-              reset();
-              toast(d.profile.resetDone);
-            }}
-            className="flex h-12 w-full items-center gap-3 rounded-2xl px-4 text-[14px] text-muted"
-          >
-            <RotateCcw size={17} /> {d.profile.reset}
-          </button>
+          <button type="button" onClick={() => { reset(); toast(d.profile.resetDone); }} className="flex h-10 w-full items-center gap-2 px-1 text-[12px] text-muted"><RotateCcw size={13} /> {d.profile.reset}</button>
         </div>
-
-        <p className="mt-6 flex gap-2 text-[12px] leading-relaxed text-muted">
-          <ShieldCheck size={16} className="mt-0.5 shrink-0" /> {d.profile.about}
-        </p>
+        <p className="mt-4 text-[11px] leading-relaxed text-muted">{d.profile.about}</p>
       </PageBody>
     </>
   );

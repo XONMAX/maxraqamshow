@@ -5,9 +5,7 @@ import { createJSONStorage, persist } from "zustand/middleware";
 import { useMemo } from "react";
 import { DICTS, type Lang } from "./i18n";
 import { DEMO_ITEMS } from "./catalog";
-import { ESCROW_FEE, STORAGE_KEY, type Deal, type DealStatus, type Item, type SortKey, type TypeFilter, type User, type ViewMode } from "./types";
-
-export { STORAGE_KEY };
+import { STORAGE_KEY, type Deal, type DealStatus, type Item, type SortKey, type TypeFilter, type User } from "./types";
 
 interface AppState {
   lang: Lang;
@@ -16,7 +14,6 @@ interface AppState {
   user: User | null;
   listings: Item[];
   deals: Deal[];
-  viewMode: ViewMode;
   sort: SortKey;
   type: TypeFilter;
   category: Record<TypeFilter, string>;
@@ -26,9 +23,8 @@ interface AppState {
   toggleSaved: (id: string) => boolean;
   setUser: (u: User | null) => void;
   addListing: (it: Item) => void;
-  createDeal: (it: Item) => Deal;
+  createDeal: (it: Item, feeUZS: number) => Deal;
   setDealStatus: (id: string, s: DealStatus) => void;
-  setViewMode: (m: ViewMode) => void;
   setSort: (s: SortKey) => void;
   setType: (t: TypeFilter) => void;
   setCategory: (t: TypeFilter, c: string) => void;
@@ -42,7 +38,6 @@ const defaults = {
   user: null,
   listings: [] as Item[],
   deals: [] as Deal[],
-  viewMode: "reels" as ViewMode,
   sort: "sequence" as SortKey,
   type: "all" as TypeFilter,
   category: { all: "all", phone: "all", telegram: "all", instagram: "all" } as Record<TypeFilter, string>,
@@ -61,15 +56,14 @@ export const useApp = create<AppState>()(
       },
       setUser: (user) => set({ user }),
       addListing: (it) => set({ listings: [it, ...get().listings] }),
-      createDeal: (item) => {
+      createDeal: (item, feeUZS) => {
         const now = new Date().toISOString();
-        const fee = Math.round(item.priceUZS * ESCROW_FEE);
         const deal: Deal = {
           id: `D-${Date.now().toString(36).toUpperCase()}`,
           item,
           status: "paid",
-          feeUZS: fee,
-          totalUZS: item.priceUZS + fee,
+          feeUZS,
+          totalUZS: item.priceUZS + feeUZS,
           createdAt: now,
           history: { paid: now },
         };
@@ -82,7 +76,6 @@ export const useApp = create<AppState>()(
             d.id === id ? { ...d, status, history: { ...d.history, [status]: new Date().toISOString() } } : d,
           ),
         }),
-      setViewMode: (viewMode) => set({ viewMode }),
       setSort: (sort) => set({ sort }),
       setType: (type) => set({ type }),
       setCategory: (t, c) => set({ category: { ...get().category, [t]: c } }),
@@ -91,16 +84,13 @@ export const useApp = create<AppState>()(
     {
       name: STORAGE_KEY,
       storage: createJSONStorage(() => localStorage),
-      // Rehydrated manually in <Providers> after mount to avoid SSR hydration mismatches.
       skipHydration: true,
-      partialize: ({ lang, theme, saved, user, listings, deals, viewMode, sort, type, category }) => ({
-        lang, theme, saved, user, listings, deals, viewMode, sort, type, category,
+      partialize: ({ lang, theme, saved, user, listings, deals, sort, type, category }) => ({
+        lang, theme, saved, user, listings, deals, sort, type, category,
       }),
     },
   ),
 );
-
-/* ---------- ephemeral UI state ---------- */
 
 interface UIState {
   sheetId: string | null;
@@ -121,8 +111,6 @@ export const useUI = create<UIState>()((set) => ({
   openBuy: (buyId) => set({ buyId }),
   showToast: (text) => set({ toast: { id: Date.now(), text } }),
 }));
-
-/* ---------- selectors ---------- */
 
 export const useDict = () => DICTS[useApp((s) => s.lang)];
 

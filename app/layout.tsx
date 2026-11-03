@@ -22,7 +22,7 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
-  themeColor: "#07080b",
+  themeColor: "#000000",
 };
 
 // Applies the saved theme + language before first paint (no light/dark flash).
@@ -38,7 +38,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className="font-sans">
         <Providers>
-          <div className="relative mx-auto flex h-dvh max-w-[480px] flex-col overflow-hidden bg-bg sm:border-x sm:border-line">
+          <div className="relative mx-auto flex h-dvh max-w-[480px] flex-col overflow-hidden bg-bg sm:border-x sm:border-line-strong">
             <div className="relative flex min-h-0 flex-1 flex-col">{children}</div>
             <BottomNav />
           </div>

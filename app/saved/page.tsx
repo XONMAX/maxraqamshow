@@ -1,11 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { AnimatePresence, motion } from "framer-motion";
+import { useRef } from "react";
 import { Heart } from "lucide-react";
 import { useAllItems, useApp, useDict, useUI } from "@/lib/store";
-import { CompactCard } from "@/components/ItemCard";
-import { PageBody, PageHeader } from "@/components/PageHeader";
+import { PostRow } from "@/components/ItemCard";
+import { PageHeader } from "@/components/PageHeader";
+import { Button } from "@/components/ui";
+import { useViewportFade } from "@/components/feed/useViewportFade";
 
 export default function SavedPage() {
   const d = useDict();
@@ -13,47 +15,28 @@ export default function SavedPage() {
   const saved = useApp((s) => s.saved);
   const hydrated = useUI((s) => s.hydrated);
   const list = saved.map((id) => items.find((i) => i.id === id)).filter((i) => !!i);
+  const ref = useRef<HTMLDivElement>(null);
+  useViewportFade(ref, [list.length]);
 
   return (
     <>
-      <PageHeader
-        title={
-          <span>
-            {d.saved.title} {list.length > 0 && <span className="text-muted">· {list.length}</span>}
-          </span>
-        }
-      />
-      <PageBody className="pt-4">
+      <PageHeader title={<span>{d.saved.title}{list.length > 0 && <span className="ml-1.5 font-mono text-[12px] text-muted">{list.length}</span>}</span>} />
+      <div ref={ref} className="no-scrollbar min-h-0 flex-1 overflow-y-auto">
         {hydrated && list.length === 0 ? (
-          <div className="mt-16 flex flex-col items-center text-center">
-            <span className="flex h-16 w-16 items-center justify-center rounded-3xl bg-rose-500/10 text-rose-500">
-              <Heart size={28} />
-            </span>
-            <p className="mt-4 font-semibold">{d.saved.empty}</p>
-            <p className="mt-1 max-w-[16rem] text-[13px] text-muted">{d.saved.emptyHint}</p>
-            <Link href="/" className="mt-5 flex h-12 items-center rounded-2xl bg-fg px-6 font-semibold text-bg">
-              {d.saved.goFeed}
-            </Link>
+          <div className="mt-16 flex flex-col items-center px-6 text-center">
+            <Heart size={24} className="text-muted" />
+            <p className="mt-3 text-[14px] font-semibold">{d.saved.empty}</p>
+            <p className="mt-1 text-[12px] text-muted">{d.saved.emptyHint}</p>
+            <Link href="/" className="mt-4"><Button variant="outline">{d.saved.goFeed}</Button></Link>
           </div>
         ) : (
-          <ul className="space-y-3">
-            <AnimatePresence initial={false}>
-              {list.map((it) => (
-                <motion.li
-                  key={it.id}
-                  layout
-                  initial={{ opacity: 0, y: 12 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.96 }}
-                  transition={{ duration: 0.22 }}
-                >
-                  <CompactCard item={it} />
-                </motion.li>
-              ))}
-            </AnimatePresence>
-          </ul>
+          list.map((it) => (
+            <div key={it.id} data-fade className="fade-blur">
+              <PostRow item={it} />
+            </div>
+          ))
         )}
-      </PageBody>
+      </div>
     </>
   );
 }

@@ -1,7 +1,6 @@
 "use client";
 
 import { useId, useMemo, useState } from "react";
-import { TYPE_META } from "@/lib/meta";
 import { monthName, priceHistory, formatUSD } from "@/lib/format";
 import type { Item } from "@/lib/types";
 import type { Lang } from "@/lib/i18n";
@@ -13,7 +12,6 @@ const PAD = { t: 14, r: 10, b: 22, l: 10 };
 /** Single-series area chart: 8 monthly points, touch/hover crosshair with tooltip, sr-only table fallback. */
 export function PriceHistory({ item, lang }: { item: Item; lang: Lang }) {
   const id = useId();
-  const m = TYPE_META[item.type];
   const data = useMemo(() => priceHistory(item.id, item.priceUSD), [item.id, item.priceUSD]);
   const [hover, setHover] = useState<number | null>(null);
 
@@ -43,7 +41,7 @@ export function PriceHistory({ item, lang }: { item: Item; lang: Lang }) {
         <p className="font-mono text-[15px] font-bold tabular">
           {formatUSD(data[active])} <span className="text-[12px] font-medium text-muted">{months[active]}</span>
         </p>
-        <p className={`font-mono text-[12px] font-semibold tabular ${change >= 0 ? "text-emerald-500" : "text-rose-500"}`}>
+        <p className="font-mono text-[12px] font-semibold tabular">
           {change >= 0 ? "▲" : "▼"} {Math.abs(change).toFixed(1)}%
         </p>
       </div>
@@ -58,17 +56,17 @@ export function PriceHistory({ item, lang }: { item: Item; lang: Lang }) {
       >
         <defs>
           <linearGradient id={`${id}-fill`} x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0" stopColor={m.accent} stopOpacity="0.28" />
-            <stop offset="1" stopColor={m.accent} stopOpacity="0" />
+            <stop offset="0" stopColor="var(--fg)" stopOpacity="0.18" />
+            <stop offset="1" stopColor="var(--fg)" stopOpacity="0" />
           </linearGradient>
         </defs>
         {/* recessive baseline */}
         <line x1={PAD.l} x2={W - PAD.r} y1={H - PAD.b} y2={H - PAD.b} stroke="var(--line)" strokeWidth="1" />
         <path d={area} fill={`url(#${id}-fill)`} />
-        <path d={line} fill="none" stroke={m.accent} strokeWidth="2" strokeLinejoin="round" strokeLinecap="round" />
+        <path d={line} fill="none" stroke="var(--fg)" strokeWidth="1.5" strokeLinejoin="round" strokeLinecap="round" />
         {/* crosshair */}
         <line x1={x(active)} x2={x(active)} y1={PAD.t - 6} y2={H - PAD.b} stroke="var(--muted)" strokeOpacity="0.5" strokeDasharray="2 3" />
-        <circle cx={x(active)} cy={y(data[active])} r="5" fill={m.accent} stroke="var(--surface)" strokeWidth="2" />
+        <circle cx={x(active)} cy={y(data[active])} r="5" fill="var(--fg)" stroke="var(--bg)" strokeWidth="2" />
         {months.map((mo, i) =>
           i % 2 === 1 || i === months.length - 1 ? (
             <text key={i} x={x(i)} y={H - 6} textAnchor={i === months.length - 1 ? "end" : "middle"} fontSize="10" fill="var(--muted)">

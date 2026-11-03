@@ -2,18 +2,18 @@
 
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import { AnimatePresence, motion } from "framer-motion";
 import { Check, ChevronLeft, ChevronRight, Copy, PartyPopper, ShieldCheck } from "lucide-react";
 import { DEMO_ITEMS, detectCategory, digitsOf, handle } from "@/lib/catalog";
-import { TYPE_META, TypeBadge } from "@/lib/meta";
+import { TypeBadge } from "@/lib/meta";
+import { useBilling, PRICING } from "@/lib/billing";
 import { useAllItems, useApp, useDict, useUI } from "@/lib/store";
 import { fmt } from "@/lib/i18n";
 import { formatUSD, formatUZS, group, seeded } from "@/lib/format";
-import { ESCROW_FEE, USD_RATE, type Item, type ItemType } from "@/lib/types";
-import { CompactCard } from "@/components/ItemCard";
+import { USD_RATE, type Item, type ItemType } from "@/lib/types";
+import { PostRow } from "@/components/ItemCard";
 import { PageBody, PageHeader } from "@/components/PageHeader";
 import { TelegramLogin } from "@/components/auth/TelegramLogin";
-import { Spinner } from "@/components/ui";
+import { Button, Spinner } from "@/components/ui";
 
 const TYPES: ItemType[] = ["phone", "telegram", "instagram"];
 
@@ -54,7 +54,8 @@ export default function SellPage() {
   const [publishing, setPublishing] = useState(false);
   const [done, setDone] = useState<Item | null>(null);
 
-  const m = type ? TYPE_META[type] : null;
+  const isPro = useBilling((s) => s.isPro());
+  const feeRate = PRICING.commission[isPro ? "pro" : "free"];
   const value = type === "phone" ? formatPhone(digitsOf(raw).slice(0, 9)) : `@${raw.replace(/^@/, "").toLowerCase()}`;
   const validity = type ? validate(type, raw) : "invalid";
   const taken = useMemo(
@@ -128,20 +129,15 @@ export default function SellPage() {
       <>
         <PageHeader title={d.sell.title} />
         <PageBody>
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ type: "spring", stiffness: 260, damping: 20 }}
-            className="mt-10 flex flex-col items-center text-center"
-          >
-            <span className="flex h-20 w-20 items-center justify-center rounded-[28px] text-white" style={{ background: TYPE_META[done.type].bg }}>
+          <div className="transition-opacity duration-200">
+            <span className="flex h-20 w-20 items-center justify-center rounded-[28px] text-white" >
               <PartyPopper size={36} />
             </span>
             <h2 className="mt-5 text-2xl font-extrabold">{d.sell.done}</h2>
             <p className="mt-2 max-w-[18rem] text-[14px] text-muted">{d.sell.doneHint}</p>
-          </motion.div>
+          </div>
           <div className="mt-8">
-            <CompactCard item={done} />
+            <PostRow item={done} />
           </div>
           <div className="mt-6 grid gap-2">
             <button
@@ -152,12 +148,12 @@ export default function SellPage() {
                 useApp.getState().setSort("newest");
                 router.push("/");
               }}
-              className="h-12 rounded-2xl font-semibold text-white"
-              style={{ background: TYPE_META[done.type].bg }}
+              className="h-12 rounded-lg font-semibold text-white"
+              
             >
               {d.sell.viewFeed}
             </button>
-            <button type="button" onClick={restart} className="h-12 rounded-2xl border border-line font-semibold">
+            <button type="button" onClick={restart} className="h-12 rounded-lg border border-line font-semibold">
               {d.sell.sellAnother}
             </button>
           </div>
@@ -174,13 +170,7 @@ export default function SellPage() {
         <div className="flex gap-1.5" aria-hidden>
           {d.sell.steps.map((_, i) => (
             <span key={i} className="h-1 flex-1 overflow-hidden rounded-full bg-line">
-              <motion.span
-                className="block h-full rounded-full"
-                style={{ background: m?.bg ?? "var(--fg)" }}
-                initial={false}
-                animate={{ width: i <= step ? "100%" : "0%" }}
-                transition={{ duration: 0.3 }}
-              />
+              <span className="block h-full rounded-full bg-fg transition-[width] duration-300" style={{ width: i <= step ? "100%" : "0%" }} />
             </span>
           ))}
         </div>
@@ -190,21 +180,12 @@ export default function SellPage() {
       </div>
 
       <PageBody className="pt-2">
-        <AnimatePresence mode="wait" custom={dir} initial={false}>
-          <motion.div
-            key={step}
-            custom={dir}
-            initial={{ opacity: 0, x: dir * 24 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: dir * -24 }}
-            transition={{ duration: 0.2 }}
-          >
+        <div className="transition-opacity duration-200">
             {step === 0 && (
               <div>
                 <h2 className="mt-3 mb-4 text-[22px] font-extrabold">{d.sell.chooseType}</h2>
                 <div className="grid gap-3" role="radiogroup">
                   {TYPES.map((t) => {
-                    const tm = TYPE_META[t];
                     const sel = t === type;
                     return (
                       <button
@@ -219,11 +200,8 @@ export default function SellPage() {
                           }
                           setItemType(t);
                         }}
-                        className="flex items-center gap-4 rounded-3xl border-2 bg-surface p-4 text-left transition active:scale-[0.99]"
-                        style={{
-                          borderColor: sel ? tm.accent : "var(--line)",
-                          boxShadow: sel ? `0 16px 40px -24px ${tm.glow}` : undefined,
-                        }}
+                        className="flex items-center gap-4 rounded-lg border p-4 text-left transition active:scale-[0.99]"
+                        style={{ borderColor: sel ? "var(--fg)" : "var(--line)" }}
                       >
                         <TypeBadge type={t} size={52} />
                         <div className="min-w-0 flex-1">
@@ -231,8 +209,8 @@ export default function SellPage() {
                           <p className="text-[13px] text-muted">{d.sell.typeHint[t]}</p>
                         </div>
                         <span
-                          className="flex h-6 w-6 items-center justify-center rounded-full border-2"
-                          style={sel ? { background: tm.accent, borderColor: tm.accent, color: "#fff" } : { borderColor: "var(--line)" }}
+                          className="flex h-6 w-6 items-center justify-center rounded-full border"
+                          style={sel ? { background: "var(--fg)", borderColor: "var(--fg)", color: "var(--bg)" } : { borderColor: "var(--line-strong)" }}
                         >
                           {sel && <Check size={14} strokeWidth={3} />}
                         </span>
@@ -243,14 +221,14 @@ export default function SellPage() {
               </div>
             )}
 
-            {step === 1 && type && m && (
+            {step === 1 && type && (
               <div>
                 <h2 className="mt-3 mb-4 text-[22px] font-extrabold">{d.sell.enterItem}</h2>
                 <label
-                  className="flex h-16 items-center gap-2 rounded-2xl border-2 bg-surface px-4 font-mono text-[22px] font-bold focus-within:ring-4 focus-within:ring-[#229ED9]/20"
-                  style={{ borderColor: raw && (validity !== "ok" || taken) ? "#F43F5E" : m.accent }}
+                  className="flex h-16 items-center gap-2 rounded-lg border px-4 font-mono text-[22px] font-bold"
+                  style={{ borderColor: raw && (validity !== "ok" || taken) ? "var(--line-strong)" : "var(--fg)", borderStyle: raw && (validity !== "ok" || taken) ? "dashed" : "solid" }}
                 >
-                  <span style={{ color: type === "phone" ? "var(--muted)" : m.accent }}>{type === "phone" ? "+998" : "@"}</span>
+                  <span className="text-muted">{type === "phone" ? "+998" : "@"}</span>
                   <input
                     autoFocus
                     value={type === "phone" ? phoneDisplay(digitsOf(raw)) : raw}
@@ -270,22 +248,22 @@ export default function SellPage() {
                 </label>
                 <div className="mt-2 min-h-5 text-[13px]">
                   {raw && validity !== "ok" && (
-                    <p className="text-rose-500">{type === "phone" ? d.sell.invalidPhone : type === "telegram" ? d.sell.invalidTg : d.sell.invalidIg}</p>
+                    <p className="text-fg">{type === "phone" ? d.sell.invalidPhone : type === "telegram" ? d.sell.invalidTg : d.sell.invalidIg}</p>
                   )}
-                  {taken && <p className="text-rose-500">{d.sell.taken}</p>}
+                  {taken && <p className="text-fg">{d.sell.taken}</p>}
                 </div>
                 {category && !taken && (
-                  <motion.div initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} className="mt-3 flex items-center gap-2 rounded-2xl p-3" style={{ background: m.soft }}>
+                  <div className="transition-opacity duration-200">
                     <span className="text-[13px] text-muted">{d.sell.detected}:</span>
-                    <span className="rounded-full px-2.5 py-1 text-[12px] font-bold" style={{ color: m.accent, background: "var(--surface)" }}>
+                    <span className="rounded-md border border-fg px-2 py-0.5 text-[11px] font-semibold">
                       {d.cats[category]}
                     </span>
-                  </motion.div>
+                  </div>
                 )}
               </div>
             )}
 
-            {step === 2 && type && m && (
+            {step === 2 && type && (
               <div>
                 <h2 className="mt-3 mb-2 text-[22px] font-extrabold">{d.sell.verifyTitle}</h2>
                 <p className="text-[14px] leading-relaxed text-muted">
@@ -304,10 +282,10 @@ export default function SellPage() {
                       autoComplete="one-time-code"
                       placeholder="• • • •"
                       aria-label={d.sell.code}
-                      className="h-16 w-full rounded-2xl border-2 bg-surface text-center font-mono text-[28px] font-bold tracking-[0.5em] outline-none"
-                      style={{ borderColor: m.accent }}
+                      className="h-16 w-full rounded-lg border text-center font-mono text-[28px] font-bold tracking-[0.5em] outline-none"
+                      style={{ borderColor: "var(--fg)" }}
                     />
-                    <p className="mt-2 text-[12px] text-amber-600 dark:text-amber-400">{d.sell.demoCode}</p>
+                    <p className="mt-2 text-[12px] text-muted">{d.sell.demoCode}</p>
                   </div>
                 ) : (
                   <div className="mt-5">
@@ -315,8 +293,8 @@ export default function SellPage() {
                     <button
                       type="button"
                       onClick={() => navigator.clipboard?.writeText(verifyCode).then(() => toast(`${verifyCode} ✓`))}
-                      className="flex h-16 w-full items-center justify-between rounded-2xl border-2 border-dashed bg-surface px-4 font-mono text-[24px] font-bold"
-                      style={{ borderColor: m.accent }}
+                      className="flex h-16 w-full items-center justify-between rounded-lg border border-dashed px-4 font-mono text-[24px] font-bold"
+                      style={{ borderColor: "var(--fg)" }}
                     >
                       {verifyCode}
                       <Copy size={20} className="text-muted" />
@@ -326,7 +304,7 @@ export default function SellPage() {
                         type="button"
                         onClick={runVerify}
                         disabled={verifying}
-                        className="mt-3 flex h-12 w-full items-center justify-center gap-2 rounded-2xl border border-line font-semibold"
+                        className="mt-3 flex h-12 w-full items-center justify-center gap-2 rounded-lg border border-line font-semibold"
                       >
                         {verifying && <Spinner />} {verifying ? d.sell.checking : d.sell.check}
                       </button>
@@ -339,23 +317,19 @@ export default function SellPage() {
                   </p>
                 )}
                 {verified && (
-                  <motion.p
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    className="mt-4 flex items-center gap-2 rounded-2xl bg-emerald-500/10 p-3 text-[14px] font-semibold text-emerald-600 dark:text-emerald-400"
-                  >
+                  <p className="transition-opacity duration-200">
                     <ShieldCheck size={20} /> {d.sell.verified}
-                  </motion.p>
+                  </p>
                 )}
               </div>
             )}
 
-            {step === 3 && type && m && (
+            {step === 3 && type && (
               <div>
                 <h2 className="mt-3 mb-4 text-[22px] font-extrabold">{d.sell.setPrice}</h2>
                 <label className="block">
                   <span className="mb-1.5 block text-[12px] font-semibold text-muted">{d.sell.priceLabel}</span>
-                  <span className="flex h-16 items-center rounded-2xl border-2 bg-surface px-4" style={{ borderColor: m.accent }}>
+                  <span className="flex h-16 items-center rounded-lg border px-4" style={{ borderColor: "var(--fg)" }}>
                     <input
                       autoFocus
                       value={priceNum ? group(priceNum) : ""}
@@ -371,23 +345,22 @@ export default function SellPage() {
                   <button
                     type="button"
                     onClick={() => setPrice(String(similar))}
-                    className="mt-3 h-11 rounded-full px-4 text-[13px] font-semibold"
-                    style={{ background: m.soft, color: m.accent }}
+                    className="mt-3 h-10 rounded-md border border-line px-3 text-[12px] font-semibold"
                   >
                     {fmt(d.sell.similar, { sum: formatUZS(similar, lang) })}
                   </button>
                 )}
-                <div className="mt-5 flex items-center justify-between rounded-2xl bg-surface-2 p-4">
-                  <span className="text-[13px] text-muted">{d.sell.youGet}</span>
-                  <span className="font-mono text-[16px] font-bold tabular">{formatUZS(priceNum * (1 - ESCROW_FEE), lang)}</span>
+                <div className="mt-5 flex items-center justify-between rounded-lg border border-line p-3">
+                  <span className="text-[13px] text-muted">{d.sell.youGet} · {isPro ? d.mono.feePro : d.mono.feeFree}</span>
+                  <span className="font-mono text-[16px] font-bold tabular">{formatUZS(priceNum * (1 - feeRate), lang)}</span>
                 </div>
               </div>
             )}
 
-            {step === 4 && type && m && category && (
+            {step === 4 && type && category && (
               <div>
                 <h2 className="mt-3 mb-4 text-[22px] font-extrabold">{d.sell.preview}</h2>
-                <CompactCard
+                <PostRow
                   item={{
                     id: "preview",
                     type,
@@ -406,21 +379,20 @@ export default function SellPage() {
                     type="button"
                     onClick={publish}
                     disabled={publishing}
-                    className="mt-6 flex h-14 w-full items-center justify-center gap-2 rounded-2xl text-[16px] font-bold text-white"
-                    style={{ background: m.bg, boxShadow: `0 14px 30px -14px ${m.glow}` }}
+                    className="mt-6 flex h-12 w-full items-center justify-center gap-2 rounded-lg bg-fg text-[15px] font-semibold text-bg disabled:opacity-40"
                   >
                     {publishing && <Spinner />} {publishing ? d.sell.publishing : d.sell.publish}
                   </button>
                 ) : (
-                  <div className="mt-6 rounded-2xl border border-line p-4">
+                  <div className="mt-6 rounded-lg border border-line p-4">
                     <p className="mb-3 text-center text-[14px] font-semibold">{d.sell.loginToPublish}</p>
                     <TelegramLogin />
                   </div>
                 )}
               </div>
             )}
-          </motion.div>
-        </AnimatePresence>
+          </div>
+        
       </PageBody>
 
       {/* Step navigation */}
@@ -431,7 +403,7 @@ export default function SellPage() {
               type="button"
               onClick={() => go(step - 1)}
               aria-label={d.sell.back}
-              className="flex h-12 w-12 items-center justify-center rounded-2xl border border-line"
+              className="flex h-12 w-12 items-center justify-center rounded-lg border border-line"
             >
               <ChevronLeft size={22} />
             </button>
@@ -440,8 +412,7 @@ export default function SellPage() {
             type="button"
             disabled={!canNext}
             onClick={() => go(step + 1)}
-            className="flex h-12 flex-1 items-center justify-center gap-1 rounded-2xl font-semibold text-white transition disabled:opacity-40"
-            style={{ background: m?.bg ?? "var(--fg)", color: m ? "#fff" : "var(--bg)" }}
+            className="flex h-11 flex-1 items-center justify-center gap-1 rounded-lg bg-fg text-[14px] font-semibold text-bg transition disabled:opacity-40"
           >
             {d.sell.next} <ChevronRight size={18} />
           </button>
@@ -449,7 +420,7 @@ export default function SellPage() {
       )}
       {step === 4 && (
         <div className="flex shrink-0 border-t border-line bg-bg px-4 py-3">
-          <button type="button" onClick={() => go(3)} className="flex h-12 items-center gap-1 rounded-2xl px-3 font-semibold text-muted">
+          <button type="button" onClick={() => go(3)} className="flex h-12 items-center gap-1 rounded-lg px-3 font-semibold text-muted">
             <ChevronLeft size={20} /> {d.sell.back}
           </button>
         </div>
